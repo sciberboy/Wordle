@@ -1,22 +1,28 @@
 require_relative 'wordle'
+require 'stringio'
 
-class TestInput
-  def gets
-    @stubbed_input ||= %w[sword wordd words]
-    @stubbed_input.shift
+module IoTestHelpers
+  def simulate_stdin(*inputs, &block)
+    io = StringIO.new
+    inputs.flatten.each {|str| io.puts(str) }
+    io.rewind
+
+    actual_stdin, $stdin = $stdin, io
+    yield
+  ensure
+    $stdin = actual_stdin
   end
 end
 
 class Wordle_test < Minitest
+  include 'IoTestHelpers'
 
   describe 'Wordle' do
-    wordle_characters = %w[w o r d s]
-    $stdin = TestInput.new
-    wordle = Wordle.new(wordle_characters)
-
+    wordle = Wordle.new(%[w o r d s])
+    simulate = IoTestHelpers.simulate_stdin(%w[sword wordd words])
 
     it ("Expects the score to be Y Y Y Y Y") do
-      expect(wordle.evaluate_guess(gets.chomp.downcase)).must_equal wordle_characters
+      expect(wordle.evaluate_guess(gets.chomp.downcase)).must_equal simulate[0]
       $stdin = STDIN # restore the original value
     end
   end
