@@ -1,0 +1,29 @@
+# Files and directories
+Gemfile.lock
+.doc
+.tmp
+.txt
+.bak
+
+# FreeFileSync
+.ffs_db
+.exercism/
+.tmp
+.patches
+
+# for the case of email patches:
+git format-patch --cover-letter -M origin/master -o outgoing/ 
+
+# for the case of incoming email patches
+git am incoming/patch.mbox
+git apply incoming/something.patch incoming/
+
+
+# Vim recovery files
+*~
+*.swp
+*.swo
+
+# Jetbrains
+.idea/
+
