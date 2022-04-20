@@ -58,7 +58,6 @@ class Wordle
   end
 
   def guess
-    banner
     word = gets.chomp.downcase
     if word.length != 5
       raise StandardError.new 'Only 5 characters are allowed'
