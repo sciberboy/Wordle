@@ -6,12 +6,11 @@ Gemfile.lock
 .bak
 .ruby_gemset
 .ruby-version
+.exercism/
+.patches
 
 # FreeFileSync
 .ffs_db
-.exercism/
-.tmp
-.patches
 
 # for the case of email patches:
 git format-patch --cover-letter -M origin/master -o outgoing/ 
