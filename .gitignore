@@ -4,6 +4,8 @@ Gemfile.lock
 .tmp
 .txt
 .bak
+.ruby_gemset
+.ruby-version
 
 # FreeFileSync
 .ffs_db
