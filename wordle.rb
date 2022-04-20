@@ -62,7 +62,7 @@ class Wordle
     if word.length != 5
       raise StandardError.new 'Only 5 characters are allowed'
     else
-      return word.chars
+      word.chars
     end
   end
 
