@@ -15,15 +15,12 @@ class Wordle_test < Minitest::Test
 
   def test_wordw_second_guess
     game = Wordle.new('words')
-    game.evaluate_guess($stdin.gets(1))
     game.evaluate_guess($stdin.gets(2))
     assert_equal %w[G G G G Y], game.score
   end
 
   def test_words_third_guess
     game = Wordle.new('words')
-    game.evaluate_guess($stdin.gets(1))
-    game.evaluate_guess($stdin.gets(2))
     game.evaluate_guess($stdin.gets(3))
     assert_equal %w[G G G G G], game.score
   end
