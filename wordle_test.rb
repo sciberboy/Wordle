@@ -25,4 +25,10 @@ class Wordle_test < Minitest::Test
     assert_equal %w[G G G G G], game.score
   end
 
+  def test_without_stdin
+    game = Wordle.new('words')
+    game.evaluate_guess('words')
+    assert_equal %w[G G G G G], game.score
+  end
+
 end
