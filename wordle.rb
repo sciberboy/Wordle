@@ -26,8 +26,6 @@ class Wordle
     puts 'Thank you for playing!'
   end
 
-  private
-
   attr_accessor :attempt, :score, :history
   attr_reader :characters_of_the_day
 
