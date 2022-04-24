@@ -21,7 +21,7 @@ class Wordle
       print_score
     end
     print_history
-    puts 'Thank you for playing!'
+    puts Constants::BYE
   end
 
   def evaluate_guess(guess_word)
@@ -64,7 +64,10 @@ class Wordle
 
   def guess
     word = gets.chomp.downcase
-    if word.length != 5
+    if word == 'x' || word == 'q'
+      puts Constants::BYE
+      exit(1)
+    elsif word.length != 5
       # raise Exceptions::Wordlength
       puts Constants::WORD_LENGTH
       play
