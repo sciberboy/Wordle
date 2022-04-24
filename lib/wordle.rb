@@ -71,5 +71,4 @@ class Wordle
     end
   end
 
-
 end
