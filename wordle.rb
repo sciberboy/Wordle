@@ -73,7 +73,6 @@ class Wordle
 end
 
 if $PROGRAM_NAME == __FILE__
-  Wordle.new('words').play
+  word = File.readlines('wordlist.txt').sample.chomp
+  Wordle.new(word).play
 end
-
-
