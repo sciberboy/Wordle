@@ -65,7 +65,9 @@ class Wordle
   def guess
     word = gets.chomp.downcase
     if word.length != 5
-      raise Exceptions::Wordlength
+      # raise Exceptions::Wordlength
+      puts Constants::WORD_LENGTH
+      play
     else
       word.chars
     end
