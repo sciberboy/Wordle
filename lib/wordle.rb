@@ -1,10 +1,6 @@
-class Wordle
+require_relative './../config/config'
 
-  ALL_GREEN = %w[G G G G G]
-  ALL_BLACK = %w[B B B B B]
-  GREEN = 'G'
-  YELLOW = 'Y'
-  ATTEMPT_LIMIT = 6
+class Wordle
 
   def initialize(word_of_the_day)
     @characters_of_the_day = word_of_the_day.downcase.chars
@@ -14,7 +10,7 @@ class Wordle
   end
 
   def play
-    until score == ALL_GREEN || attempt == ATTEMPT_LIMIT
+    until score == Constants::ALL_GREEN || attempt == Constants::ATTEMPT_LIMIT
       reset_score
       banner
       evaluate_guess(guess)
@@ -38,7 +34,7 @@ class Wordle
   end
 
   def reset_score
-    @score = ALL_BLACK
+    @score = Constants::ALL_BLACK
   end
 
   def banner
@@ -66,13 +62,8 @@ class Wordle
 
   def evaluate_guess(guess_word)
     characters_of_the_day.each_index do |index|
-      @score[index] = YELLOW if characters_of_the_day.include? guess_word[index]
-      @score[index] = GREEN if guess_word[index] == characters_of_the_day[index]
+      @score[index] = Constants::YELLOW if characters_of_the_day.include? guess_word[index]
+      @score[index] = Constants::GREEN if guess_word[index] == characters_of_the_day[index]
     end
   end
-end
-
-if $PROGRAM_NAME == __FILE__
-  word = File.readlines('wordlist.txt').sample.chomp
-  Wordle.new(word).play
 end
