@@ -2,6 +2,8 @@ require_relative './../config/config'
 
 class Wordle
 
+  attr_accessor  :score
+
   def initialize(word_of_the_day)
     @characters_of_the_day = word_of_the_day.downcase.chars
     @attempt = 1
@@ -22,7 +24,16 @@ class Wordle
     puts 'Thank you for playing!'
   end
 
-  attr_accessor :attempt, :score, :history
+  def evaluate_guess(guess_word)
+    characters_of_the_day.each_index do |index|
+      @score[index] = Constants::YELLOW if characters_of_the_day.include? guess_word[index]
+      @score[index] = Constants::GREEN if guess_word[index] == characters_of_the_day[index]
+    end
+  end
+
+  private
+
+  attr_accessor :attempt, :history
   attr_reader :characters_of_the_day
 
   def add_to_history
@@ -60,10 +71,5 @@ class Wordle
     end
   end
 
-  def evaluate_guess(guess_word)
-    characters_of_the_day.each_index do |index|
-      @score[index] = Constants::YELLOW if characters_of_the_day.include? guess_word[index]
-      @score[index] = Constants::GREEN if guess_word[index] == characters_of_the_day[index]
-    end
-  end
+
 end
