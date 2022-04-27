@@ -68,7 +68,6 @@ class Wordle
       puts Constants::BYE
       exit(1)
     elsif word.length != 5
-      # raise Exceptions::Wordlength
       puts Constants::WORD_LENGTH
       play
     else
