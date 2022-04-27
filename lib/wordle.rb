@@ -31,6 +31,13 @@ class Wordle
     end
   end
 
+  def valid_word?(word)
+    is_true = false
+    lines = File.readlines(Constants::WORDS)
+    lines.each { |line| is_true if line.chomp == word }
+    is_true
+  end
+
   private
 
   attr_accessor :attempt, :history
@@ -69,6 +76,9 @@ class Wordle
       exit(1)
     elsif word.length != 5
       puts Constants::WORD_LENGTH
+      play
+    elsif !valid_word?(word)
+      puts Constants::WORD_INVALID
       play
     else
       word.chars
