@@ -33,7 +33,7 @@ class Wordle
   end
 
   def valid_word?(word)
-    lines = File.readlines(Constants::WORDS)
+    lines = File.readlines(Constants::WORDS_FILE)
     lines.each do |line|
       return true if line.chomp == word
     end
