@@ -2,9 +2,10 @@ require_relative './../config/config'
 
 class Wordle
 
+
   attr_accessor  :score
 
-  def initialize(word_of_the_day)
+  def initialize(word_of_the_day = '')
     @characters_of_the_day = word_of_the_day.downcase.chars
     @attempt = 1
     @score = []
@@ -32,10 +33,11 @@ class Wordle
   end
 
   def valid_word?(word)
-    is_true = false
     lines = File.readlines(Constants::WORDS)
-    lines.each { |line| is_true if line.chomp == word }
-    is_true
+    lines.each do |line|
+      return true if line.chomp == word
+    end
+    false
   end
 
   private
