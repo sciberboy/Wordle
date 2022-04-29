@@ -2,7 +2,6 @@ require_relative './../config/config'
 
 class Wordle
 
-
   attr_accessor  :score
 
   def initialize(word_of_the_day = '')
