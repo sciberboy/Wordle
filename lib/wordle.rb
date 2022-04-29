@@ -57,7 +57,7 @@ class Wordle
   end
 
   def banner
-    puts "Attempt #{attempt}: Guess a word..."
+    puts "Attempt #{attempt}: Guess a word...".green
   end
 
   def print_score
