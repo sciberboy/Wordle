@@ -1,7 +1,8 @@
 require_relative './../config/config'
+require_relative './colors'
 
 class Wordle
-
+  include Colors
   attr_accessor  :score
 
   def initialize(word_of_the_day = '')
@@ -61,7 +62,7 @@ class Wordle
   end
 
   def print_score
-    p score
+    Colors.add_color(score).each { |color| print color }
     puts
   end
 
