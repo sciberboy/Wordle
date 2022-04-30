@@ -62,12 +62,13 @@ class Wordle
   end
 
   def print_score
-    Colors.add_color(score).each { |color| print color }
+    Colors.add_color(score).map { |color| print color << '|' }
     puts
   end
 
   def print_history
-    history.each { |the_score| p the_score }
+    history.each { |the_score| puts the_score }
+    puts
     puts
   end
 

@@ -6,11 +6,11 @@ module Colors
     color_map = colors.map do |color|
       case color
       when 'G'
-        color.green
+        ' '.on_green
       when 'Y'
-        color.yellow
+        ' '.on_yellow
       when 'B'
-        color.black
+        ' '.on_black
       end
     end
     color_map

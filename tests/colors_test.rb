@@ -6,11 +6,11 @@ class Colors_test < Minitest::Test
 
   def test_G_Y_B_G_Y
     colors = [
-      'G'.green,
-      'Y'.yellow,
-      'B'.black,
-      'G'.green,
-      'Y'.yellow
+      'G'.on_green,
+      'Y'.on_yellow,
+      'B'.on_black,
+      'G'.on_green,
+      'Y'.on_yellow
     ]
     assert_equal  colors, Colors.add_color(%w[G Y B G Y])
   end
