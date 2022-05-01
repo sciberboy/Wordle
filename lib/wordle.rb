@@ -14,7 +14,6 @@ class Wordle
 
   def play
     until score == Constants::ALL_GREEN || attempt == Constants::ATTEMPT_LIMIT
-      reset_score
       banner
       evaluate_guess(guess)
       add_to_history
@@ -26,6 +25,7 @@ class Wordle
   end
 
   def evaluate_guess(guess_word)
+    @score =  %w[B B B B B]
     characters_of_the_day.each_index do |index|
       @score[index] = Constants::YELLOW if characters_of_the_day.include? guess_word[index]
       @score[index] = Constants::GREEN if guess_word[index] == characters_of_the_day[index]
@@ -40,9 +40,6 @@ class Wordle
     false
   end
 
-  def reset_score
-    @score = Constants::ALL_BLACK
-  end
 
   private
 
@@ -51,6 +48,10 @@ class Wordle
 
   def add_to_history
     @history << score.join(' ')
+  end
+  
+  def reset_score
+    @score = Constants::ALL_BLACK
   end
 
   def increment
