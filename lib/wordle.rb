@@ -40,6 +40,10 @@ class Wordle
     false
   end
 
+  def reset_score
+    @score = Constants::ALL_BLACK
+  end
+
   private
 
   attr_accessor :attempt, :history
@@ -51,10 +55,6 @@ class Wordle
 
   def increment
     @attempt += 1
-  end
-
-  def reset_score
-    @score = Constants::ALL_BLACK
   end
 
   def banner
@@ -88,3 +88,6 @@ class Wordle
   end
 
 end
+
+game = Wordle.new('match')
+game.evaluate_guess('watch')
