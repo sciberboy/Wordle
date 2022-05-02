@@ -28,24 +28,6 @@ class Wordle_test < Minitest::Test
     assert_equal %w[G G G G G], game.score
   end
 
-  def test_correct_answer_at_sixth_attempt
-    history_values = [
-      %w[S P A C R],
-      %w[G B B B B],
-      %w[B B B B B],
-      %w[B B B B B],
-      %w[B B B B B],
-      %w[B B B Y Y],
-      %w[G G G G G]
-    ]
-    game = Wordle.new('slime')
-    (1..6).each do |count|
-      game.evaluate_guess($stdin.gets(count))
-      @value =  history_values[count]
-    end
-    assert_equal @value , game.score
-  end
-
   def test_guess_is_words
     game = Wordle.new('words')
     game.evaluate_guess('words')
