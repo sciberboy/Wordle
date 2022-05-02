@@ -2,7 +2,6 @@ require_relative './../config/config'
 
 class Wordle
 
-
   attr_accessor  :score
 
   def initialize(word_of_the_day = '')
@@ -13,19 +12,27 @@ class Wordle
   end
 
   def play
-    until score == Constants::ALL_GREEN || attempt == Constants::ATTEMPT_LIMIT
+    until score == Constants::ALL_GREEN || attempt > Constants::ATTEMPT_LIMIT
       banner
       evaluate_guess(guess)
       add_to_history
       increment
       print_score
+      puts
     end
+    puts "Your entries:"
     print_history
+    results = score == Constants::ALL_GREEN ? 'Congratulations!' : 'Sorry, you did not get it this time!'
+    puts results
+    puts
+    puts 'Do you want to play again? (y/n)'
+    play if gets.downcase.chomp == 'y'
     puts Constants::BYE
+    exit(1)
   end
 
   def evaluate_guess(guess_word)
-    @score =  %w[B B B B B]
+    @score = %w[B B B B B]
     characters_of_the_day.each_index do |index|
       @score[index] = Constants::YELLOW if characters_of_the_day.include? guess_word[index]
       @score[index] = Constants::GREEN if guess_word[index] == characters_of_the_day[index]
@@ -40,7 +47,6 @@ class Wordle
     false
   end
 
-
   private
 
   attr_accessor :attempt, :history
@@ -48,10 +54,6 @@ class Wordle
 
   def add_to_history
     @history << score.join(' ')
-  end
-  
-  def reset_score
-    @score = Constants::ALL_BLACK
   end
 
   def increment
@@ -63,13 +65,11 @@ class Wordle
   end
 
   def print_score
-    p score
-    puts
+    puts score.join(' ')
   end
 
   def print_history
-    history.each { |the_score| p the_score }
-    puts
+    history.each { |the_score| puts the_score }
   end
 
   def guess
@@ -89,6 +89,3 @@ class Wordle
   end
 
 end
-
-game = Wordle.new('match')
-game.evaluate_guess('watch')

@@ -3,9 +3,11 @@ require 'minitest/autorun'
 require_relative './../lib/wordle'
 
 class Wordle_test < Minitest::Test
+
   def $stdin.gets(count)
-    @stubbed_input = %w[spacer sword wordw words match cross]
-    @stubbed_input[count]
+      @stubbed_input = %w[spacer sword wordw words match cross slime slime ]
+      @stubbed_input[count]
+
   end
 
   def test_stdin_guess_is_wordw
@@ -18,6 +20,30 @@ class Wordle_test < Minitest::Test
     game = Wordle.new('watch')
     game.evaluate_guess($stdin.gets(4))
     assert_equal %w[B G G G G], game.score
+  end
+
+  def test_without_stdin
+    game = Wordle.new('words')
+    game.evaluate_guess('words')
+    assert_equal %w[G G G G G], game.score
+  end
+
+  def test_correct_answer_at_sixth_attempt
+    history_values = [
+      %w[S P A C R],
+      %w[G B B B B],
+      %w[B B B B B],
+      %w[B B B B B],
+      %w[B B B B B],
+      %w[B B B Y Y],
+      %w[G G G G G]
+    ]
+    game = Wordle.new('slime')
+    (1..6).each do |count|
+      game.evaluate_guess($stdin.gets(count))
+      @value =  history_values[count]
+    end
+    assert_equal @value , game.score
   end
 
   def test_guess_is_words
@@ -43,6 +69,7 @@ class Wordle_test < Minitest::Test
     game.evaluate_guess('abeam')
     assert_equal %w[G G B Y B], game.score
   end
+
 
   def test_word_is_not_in_wordlist
     game = Wordle.new
