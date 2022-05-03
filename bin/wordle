@@ -1,9 +1,9 @@
 #!/usr/bin/env ruby
 require_relative './../config/config'
-require_relative './../lib/wordle'
+require 'wordle'
 
 if $PROGRAM_NAME == __FILE__
-  word = File.readlines(Constants::WORDS_FILE).sample.chomp
+  word = File.readlines(Constants::WORDS_LIST).sample.chomp
   puts "The word of the day is:'#{word}'"
   Wordle.new(word).play
 end
