@@ -1,5 +1,5 @@
 require_relative './../config/config'
-require_relative './colors'
+require 'colors'
 
 class Wordle
 
@@ -43,7 +43,7 @@ class Wordle
   end
 
   def valid_word?(word)
-    lines = File.readlines(Constants::WORDS_FILE)
+    lines = File.readlines(Constants::WORDS_LIST)
     lines.each do |line|
       return true if line.chomp == word
     end

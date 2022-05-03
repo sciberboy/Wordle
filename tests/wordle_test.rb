@@ -1,13 +1,12 @@
 require_relative './../config/config'
 require 'minitest/autorun'
-require_relative './../lib/wordle'
+require 'wordle'
 
 class Wordle_test < Minitest::Test
 
   def $stdin.gets(count)
     @stubbed_input = %w[spacer sword wordw words match cross slime slime ]
     @stubbed_input[count]
-
   end
 
   def test_stdin_guess_is_wordw
