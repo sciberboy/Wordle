@@ -27,7 +27,7 @@ class Wordle
     print_history
     puts
     puts score == Constants::ALL_GREEN ? 'Well done!' : 'Sorry, you did not get it this time!'
-    puts "The word you are looking for is: #{characters_of_the_day.join}.green"
+    puts "The word you are looking for is: #{characters_of_the_day.join.green}"
     puts 'Do you want to play again? (y/n)'
     play if gets.downcase.chomp == 'y'
     puts Constants::BYE
