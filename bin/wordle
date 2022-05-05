@@ -4,6 +4,7 @@ require 'wordle'
 
 if $PROGRAM_NAME == __FILE__
   word = File.readlines(Constants::WORDS_LIST).sample.chomp
-  puts "The word of the day is:'#{word}'"
+  puts "Welcome to the Sciberboy Wordle Clone!"
+  puts "The word of the day is:'#{word}'" if $DEBUG
   Wordle.new(word).play
 end
