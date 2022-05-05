@@ -2,7 +2,7 @@ require 'colorize'
 
 module Constants
 
-  WORDS_LIST = './resources/wordlist.txt'
+  WORDS_LIST = './resources/common_words.txt'
   ALL_GREEN = %w[G G G G G]
   ALL_BLACK = %w[B B B B B]
   GREEN = 'G'
