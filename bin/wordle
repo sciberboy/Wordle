@@ -3,8 +3,6 @@ require_relative './../config/config'
 require 'wordle'
 
 if $PROGRAM_NAME == __FILE__
-  word = File.readlines(Constants::WORDS_LIST).sample.chomp
   puts "Welcome to the Sciberboy Wordle Clone!"
-  puts "The word of the day is: #{word.green}" if $DEBUG
-  Wordle.new(word).play
+  Wordle.play
 end
