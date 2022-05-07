@@ -1,6 +1,5 @@
 require_relative './../config/config'
 require 'minitest/autorun'
-require 'colors'
 
 class Colors_test < Minitest::Test
 
