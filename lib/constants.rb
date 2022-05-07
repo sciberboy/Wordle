@@ -10,6 +10,6 @@ module Constants
   ATTEMPT_LIMIT = 6
   WORD_LENGTH = 'Please try again! The word should be exactly 5 characters in length.'.red
   WORD_INVALID = 'Please try again! The word you entered is not in the word list.'.red
-  BYE = 'Thank you for playing!'.blue
+  BYE = 'Thank you for playing!'.yellow
 
 end
