@@ -1,5 +1,3 @@
-require_relative './../config/config'
-
 module Colors
 
   def self.add_color(colors)

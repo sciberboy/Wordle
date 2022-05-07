@@ -1,9 +1,7 @@
 require_relative './../config/config'
-require 'colors'
 
 class Wordle
 
-  include Colors
   attr_accessor  :score
 
   def initialize(word_of_the_day = '')
