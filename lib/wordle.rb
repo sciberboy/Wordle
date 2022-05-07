@@ -1,8 +1,6 @@
 require_relative './../config/config'
 require 'colors'
 
-$DEBUG = true
-
 class Wordle
 
   include Colors
