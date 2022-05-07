@@ -1,40 +1,43 @@
 require_relative './../config/config'
 require 'colors'
 
+$DEBUG = true
+
 class Wordle
 
   include Colors
-  attr_accessor  :score
+  attr_accessor  :score, :word
 
   def initialize(word_of_the_day = '')
     @characters_of_the_day = word_of_the_day.downcase.chars
     @attempt = 1
     @score = []
     @history = []
+    @word = []
   end
 
   def play
     until score == Constants::ALL_GREEN || attempt > Constants::ATTEMPT_LIMIT
       banner
-      puts evaluate_guess(guess).join(' ').blue
+      @word = evaluate(guess).join(' ').white
       add_to_history
       increment
-      print_score
+      show_score
       puts
     end
     puts
     puts "Your entries:"
-    print_history
+    show_history
     puts
     puts score == Constants::ALL_GREEN ? 'Well done!' : 'Sorry, you did not get it this time!'
     puts "The word you are looking for is: #{characters_of_the_day.join.green}"
     puts 'Do you want to play again? (y/n)'
-    play if gets.downcase.chomp == 'y'
+    replay if gets.downcase.chomp == 'y'
     puts Constants::BYE
     exit(1)
   end
 
-  def evaluate_guess(guess_word)
+  def evaluate(guess_word)
     @score = %w[B B B B B]
     characters_of_the_day.each_index do |index|
       @score[index] = Constants::YELLOW if characters_of_the_day.include? guess_word[index]
@@ -66,19 +69,25 @@ class Wordle
 
   def banner
     puts
-    puts "Attempt #{attempt}: Guess a word..."
+    puts "Attempt #{attempt}"
   end
 
- def print_score(colors = score)
+ def show_score(colors = score)
    colormap = Colors.add_color(colors)
    colormap.each { |color| print color << '|' }
  end
 
-  def print_history
+  def show_history
     history.each do |colors|
-      print_score(colors)
+      show_score(colors)
       puts
     end
+  end
+
+  def replay
+    word = File.readlines(Constants::WORDS_LIST).sample.chomp
+    puts "The word of the day is:#{word}.green" if $DEBUG
+    Wordle.new(word).play
   end
 
   def guess
