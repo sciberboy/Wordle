@@ -66,7 +66,6 @@ class Wordle
   attr_accessor :attempt, :history
   attr_reader :characters_of_the_day
 
-
   def add_to_history
     @history << score
   end
