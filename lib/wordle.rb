@@ -6,14 +6,13 @@ $DEBUG = true
 class Wordle
 
   include Colors
-  attr_accessor  :score, :word
+  attr_accessor  :score
 
   def initialize(word_of_the_day = '')
     @characters_of_the_day = word_of_the_day.downcase.chars
     @attempt = 1
     @score = []
     @history = []
-    @word = []
   end
 
   def self.play
@@ -28,7 +27,6 @@ class Wordle
       word = evaluate(guess)
       word.each {|character| print character.yellow << ' '}
       puts
-      @word = word.join(' ').white
       add_to_history
       increment
       show_score
