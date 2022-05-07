@@ -16,7 +16,7 @@ class Wordle
   def play
     until score == Constants::ALL_GREEN || attempt > Constants::ATTEMPT_LIMIT
       banner
-      evaluate_guess(guess)
+      puts evaluate_guess(guess).join(' ').blue
       add_to_history
       increment
       print_score
@@ -40,6 +40,7 @@ class Wordle
       @score[index] = Constants::YELLOW if characters_of_the_day.include? guess_word[index]
       @score[index] = Constants::GREEN if guess_word[index] == characters_of_the_day[index]
     end
+    guess_word
   end
 
   def valid_word?(word)
