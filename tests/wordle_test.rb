@@ -11,43 +11,43 @@ class Wordle_test < Minitest::Test
 
   def test_stdin_guess_is_wordw
     game = Wordle.new('words')
-    game.evaluate_guess($stdin.gets(2))
+    game.evaluate($stdin.gets(2))
     assert_equal %w[G G G G Y], game.score
   end
 
   def test_stdin_guess_is_match
     game = Wordle.new('watch')
-    game.evaluate_guess($stdin.gets(4))
+    game.evaluate($stdin.gets(4))
     assert_equal %w[B G G G G], game.score
   end
 
   def test_without_stdin
     game = Wordle.new('words')
-    game.evaluate_guess('words')
+    game.evaluate('words')
     assert_equal %w[G G G G G], game.score
   end
 
   def test_guess_is_words
     game = Wordle.new('words')
-    game.evaluate_guess('words')
+    game.evaluate('words')
     assert_equal %w[G G G G G], game.score
   end
 
   def test_guess_is_watch
     game = Wordle.new('match')
-    game.evaluate_guess('watch')
+    game.evaluate('watch')
     assert_equal %w[B G G G G], game.score
   end
 
   def test_guess_is_gross
     game = Wordle.new('gloss')
-    game.evaluate_guess('gross')
+    game.evaluate('gross')
     assert_equal %w[G B G G G], game.score
   end
 
   def test_guess_is_abeam
     game = Wordle.new('abdul')
-    game.evaluate_guess('abeam')
+    game.evaluate('abeam')
     assert_equal %w[G G B Y B], game.score
   end
 

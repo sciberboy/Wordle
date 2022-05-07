@@ -16,7 +16,13 @@ class Wordle
     @word = []
   end
 
-  def play
+  def self.play
+    word = File.readlines(Constants::WORDS_LIST).sample.chomp
+    puts "The word of the day is: #{word.green}" if $DEBUG
+    Wordle.new(word).wordle
+  end
+
+  def wordle
     until score == Constants::ALL_GREEN || attempt > Constants::ATTEMPT_LIMIT
       banner
       word = evaluate(guess)
@@ -35,7 +41,7 @@ class Wordle
     puts score == Constants::ALL_GREEN ? 'Well done!' : 'Sorry, you did not get it this time!'
     puts "The word you are looking for is: #{characters_of_the_day.join.green}"
     puts 'Do you want to play again? (y/n)'
-    replay if gets.downcase.chomp == 'y'
+    Wordle.play if gets.downcase.chomp == 'y'
     puts Constants::BYE
     exit(1)
   end
@@ -54,12 +60,14 @@ class Wordle
     lines.each do |line|
       return true if line.chomp == word
     end
+    false
   end
 
   private
 
   attr_accessor :attempt, :history
   attr_reader :characters_of_the_day
+
 
   def add_to_history
     @history << score
@@ -84,12 +92,6 @@ class Wordle
       show_score(colors)
       puts
     end
-  end
-
-  def replay
-    word = File.readlines(Constants::WORDS_LIST).sample.chomp
-    puts "The word of the day is: #{word.green}" if $DEBUG
-    Wordle.new(word).play
   end
 
   def guess
