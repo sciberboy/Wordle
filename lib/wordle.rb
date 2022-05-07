@@ -33,7 +33,7 @@ class Wordle
       puts
     end
     puts
-    puts "History:".yellow
+    puts "H i s t o r y:".yellow
     show_history
     puts
     puts score == Constants::ALL_GREEN ? 'Well done!' : 'Sorry, you did not get it this time!'
@@ -100,10 +100,10 @@ class Wordle
       exit(1)
     elsif word.length != 5
       puts Constants::WORD_LENGTH
-      play
+      wordle
     elsif !valid_word?(word)
       puts Constants::WORD_INVALID
-      play
+      wordle
     else
       word.chars
     end
