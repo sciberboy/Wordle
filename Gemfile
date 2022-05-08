@@ -12,7 +12,7 @@ end
 
 group :production do
   %w[ colorize
-      ].each { |package| gem package }
+  ].each { |package| gem package }
 end
 
 

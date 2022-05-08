@@ -31,6 +31,23 @@ class Wordle
     end_game_banner
   end
 
+  def valid_word?(word)
+    lines = File.readlines(Constants::WORDS_LIST)
+    lines.each do |line|
+      return true if line.chomp == word
+    end
+    false
+  end
+
+  def evaluate(guess_word)
+    @score = %w[B B B B B]
+    characters_of_the_day.each_index do |index|
+      @score[index] = Constants::YELLOW if characters_of_the_day.include? guess_word[index]
+      @score[index] = Constants::GREEN if guess_word[index] == characters_of_the_day[index]
+    end
+    guess_word
+  end
+
   private
 
   attr_accessor :attempt, :history
@@ -54,23 +71,6 @@ class Wordle
     else
       word.chars
     end
-  end
-
-  def valid_word?(word)
-    lines = File.readlines(Constants::WORDS_LIST)
-    lines.each do |line|
-      return true if line.chomp == word
-    end
-    false
-  end
-
-  def evaluate(guess_word)
-    @score = %w[B B B B B]
-    characters_of_the_day.each_index do |index|
-      @score[index] = Constants::YELLOW if characters_of_the_day.include? guess_word[index]
-      @score[index] = Constants::GREEN if guess_word[index] == characters_of_the_day[index]
-    end
-    guess_word
   end
 
   def add_to_history
