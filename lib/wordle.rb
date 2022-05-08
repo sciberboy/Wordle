@@ -56,12 +56,12 @@ class Wordle
   end
 
   def user_input
-    word = evaluate(user_guess)
+    word = evaluate(guess)
     word.each {|character| print character.yellow << ' '}
     puts
   end
 
-  def user_guess
+  def guess
     word = gets.chomp.downcase
     end_banner if word == 'x'
     puts
