@@ -5,5 +5,5 @@ require 'wordle'
 if $PROGRAM_NAME == __FILE__
   puts 'Welcome to the Sciberboy Wordle Clone!'
   puts "Type 'x' to quit the game at any time."
-  Wordle.play
+  Wordle.new.play
 end

@@ -3,22 +3,19 @@ require_relative './../config/config'
 class Wordle
 
   attr_accessor  :results
+  attr_reader :word_of_the_day, :dictionary
 
-  def initialize(word_of_the_day = '', dictionary = File.readlines(Constants::WORDS_LIST))
+  def initialize(dictionary = File.readlines(Constants::WORDS_LIST))
+    @dictionary = dictionary
+    @word_of_the_day = dictionary.sample.chomp
     @characters_of_the_day = word_of_the_day.downcase.chars
     @attempt = 1
     @results = []
     @archive = []
-    @dictionary = dictionary
+    puts "The word of the day is: #{word_of_the_day.green}" if $DEBUG
   end
 
-  def self.play
-    word = File.readlines(Constants::WORDS_LIST).sample.chomp
-    puts "The word of the day is: #{word.green}" if $DEBUG
-    Wordle.new(word).wordle
-  end
-
-  def wordle
+  def play
     until results == Constants::ALL_GREEN || attempt > Constants::ATTEMPT_LIMIT
       start_banner
       user_input
@@ -27,6 +24,14 @@ class Wordle
       increment_attempt
     end
     end_banner
+    play_again?
+  end
+
+  def play_again?
+    puts 'Do you want to play again? (y/n)'
+    Wordle.new.play if gets.downcase.chomp == 'y'
+    puts Constants::BYE
+    exit(1)
   end
 
   def valid_word?(word)
@@ -62,14 +67,15 @@ class Wordle
 
   def guess
     word = gets.chomp.downcase
-    end_banner if word == 'x'
-    puts
-    if word.length != 5
+    if word == 'x'
+      end_banner
+      exit(1)
+    elsif word.length != 5
       puts Constants::WORD_LENGTH
-      wordle
+      play
     elsif !valid_word?(word)
       puts Constants::WORD_INVALID
-      wordle
+      play
     else
       word.chars
     end
@@ -102,7 +108,8 @@ class Wordle
     puts
     puts <<~EOS
     #{results == Constants::ALL_GREEN ? 'Well done!' : 'Sorry, you did not get it this time!'}
-    The word you are looking for is: #{characters_of_the_day.join.green}
+    The word you are looking for is: #{word_of_the_day.green}
+    EOS
   end
 
 end
