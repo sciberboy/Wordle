@@ -5,7 +5,9 @@ group :development do
   %w[ colorize
       minitest
       rubocop
-      rubocop-minitest].each { |package| gem package }
+      rubocop-minitest
+      simplecov
+  ].each { |package| gem package }
 end
 
 group :production do
