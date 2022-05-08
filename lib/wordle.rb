@@ -28,16 +28,40 @@ class Wordle
       show_score
       puts
     end
+    end_game_banner
+  end
+
+  private
+
+  attr_accessor :attempt, :history
+  attr_reader :characters_of_the_day
+
+  def banner
     puts
-    puts "H i s t o r y:".yellow
-    show_history
+    puts "Attempt #{attempt}"
+  end
+
+  def guess
+    word = gets.chomp.downcase
+    end_game_banner if word == 'x'
     puts
-    puts score == Constants::ALL_GREEN ? 'Well done!' : 'Sorry, you did not get it this time!'
-    puts "The word you are looking for is: #{characters_of_the_day.join.green}"
-    puts 'Do you want to play again? (y/n)'
-    Wordle.play if gets.downcase.chomp == 'y'
-    puts Constants::BYE
-    exit(1)
+    if word.length != 5
+      puts Constants::WORD_LENGTH
+      wordle
+    elsif !valid_word?(word)
+      puts Constants::WORD_INVALID
+      wordle
+    else
+      word.chars
+    end
+  end
+
+  def valid_word?(word)
+    lines = File.readlines(Constants::WORDS_LIST)
+    lines.each do |line|
+      return true if line.chomp == word
+    end
+    false
   end
 
   def evaluate(guess_word)
@@ -49,19 +73,6 @@ class Wordle
     guess_word
   end
 
-  def valid_word?(word)
-    lines = File.readlines(Constants::WORDS_LIST)
-    lines.each do |line|
-      return true if line.chomp == word
-    end
-    false
-  end
-
-  private
-
-  attr_accessor :attempt, :history
-  attr_reader :characters_of_the_day
-
   def add_to_history
     @history << score
   end
@@ -70,15 +81,10 @@ class Wordle
     @attempt += 1
   end
 
-  def banner
-    puts
-    puts "Attempt #{attempt}"
+  def show_score(colors = score)
+    colormap = Colors.add_color(colors)
+    colormap.each { |color| print color << '|' }
   end
-
- def show_score(colors = score)
-   colormap = Colors.add_color(colors)
-   colormap.each { |color| print color << '|' }
- end
 
   def show_history
     history.each do |colors|
@@ -87,21 +93,17 @@ class Wordle
     end
   end
 
-  def guess
-    word = gets.chomp.downcase
+  def end_game_banner
     puts
-    if word == 'x' || word == 'q'
-      puts Constants::BYE
-      exit(1)
-    elsif word.length != 5
-      puts Constants::WORD_LENGTH
-      wordle
-    elsif !valid_word?(word)
-      puts Constants::WORD_INVALID
-      wordle
-    else
-      word.chars
-    end
+    puts "H i s t o r y:".yellow
+    show_history
+    puts
+    puts score == Constants::ALL_GREEN ? 'Well done!' : 'Sorry, you did not get it this time!'
+    puts "The word you are looking for is: #{characters_of_the_day.join.green}"
+    puts 'Do you want to play again? (y/n)'
+    Wordle.play if gets.downcase.chomp == 'y'
+    puts Constants::BYE
+    exit(1)
   end
 
 end

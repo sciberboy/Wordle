@@ -1,4 +1,7 @@
+require 'colorize'
+
 module Colors
+  include Colorize
 
   def self.add_color(colors)
     color_map = colors.map do |color|
