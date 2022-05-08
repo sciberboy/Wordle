@@ -4,11 +4,12 @@ class Wordle
 
   attr_accessor  :results
 
-  def initialize(word_of_the_day = '')
+  def initialize(word_of_the_day = '', dictionary = File.readlines(Constants::WORDS_LIST))
     @characters_of_the_day = word_of_the_day.downcase.chars
     @attempt = 1
     @results = []
     @archive = []
+    @dictionary = dictionary
   end
 
   def self.play
@@ -29,11 +30,9 @@ class Wordle
   end
 
   def valid_word?(word)
-    lines = File.readlines(Constants::WORDS_LIST)
-    lines.each do |line|
-      return true if line.chomp == word
+    dictionary.any? do |line|
+      line.chomp == word
     end
-    false
   end
 
   def evaluate(user_guess)
@@ -48,7 +47,7 @@ class Wordle
   private
 
   attr_accessor :attempt, :archive
-  attr_reader :characters_of_the_day
+  attr_reader :characters_of_the_day, :dictionary
 
   def start_banner
     puts
