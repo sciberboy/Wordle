@@ -100,12 +100,9 @@ class Wordle
     puts "H i s t o r y:".yellow
     retrieve_archive
     puts
-    puts results == Constants::ALL_GREEN ? 'Well done!' : 'Sorry, you did not get it this time!'
-    puts "The word you are looking for is: #{characters_of_the_day.join.green}"
-    puts 'Do you want to play again? (y/n)'
-    Wordle.play if gets.downcase.chomp == 'y'
-    puts Constants::BYE
-    exit(1)
+    puts <<~EOS
+    #{results == Constants::ALL_GREEN ? 'Well done!' : 'Sorry, you did not get it this time!'}
+    The word you are looking for is: #{characters_of_the_day.join.green}
   end
 
 end
