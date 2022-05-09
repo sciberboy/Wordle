@@ -52,8 +52,7 @@ class Wordle
   end
 
   def user_input
-    word = evaluate(guess)
-    word.each {|character| print character.yellow << ' '}
+    evaluate(guess).each {|character| print character.yellow << ' '}
     puts
   end
 
