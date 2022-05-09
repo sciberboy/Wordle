@@ -2,7 +2,7 @@ require_relative './../config/config'
 
 class Wordle
 
-  attr_accessor  :results
+  attr_accessor  :score
   attr_reader :word_of_the_day, :dictionary
 
   def initialize(dictionary = File.readlines(Constants::WORDS_LIST))
@@ -10,41 +10,33 @@ class Wordle
     @word_of_the_day = dictionary.sample.chomp
     @characters_of_the_day = word_of_the_day.downcase.chars
     @attempt = 1
-    @results = []
+    @score = []
     @archive = []
     puts "The word of the day is: #{word_of_the_day.green}" if $DEBUG
   end
 
   def play
-    until results == Constants::ALL_GREEN || attempt > Constants::ATTEMPT_LIMIT
+    until score == Constants::ALL_GREEN || attempt > Constants::ATTEMPT_LIMIT
       start_banner
       user_input
-      show_results
-      archive_results
+      show_score
+      archive_score
       increment_attempt
     end
     end_banner
-    play_again?
-  end
-
-  def play_again?
-    puts 'Do you want to play again? (y/n)'
-    Wordle.new.play if gets.downcase.chomp == 'y'
-    puts Constants::BYE
+    play_again? ? Wordle.new.play : (puts Constants::BYE)
     exit(1)
   end
 
   def valid_word?(word)
-    dictionary.any? do |line|
-      line.chomp == word
-    end
+    dictionary.any? { |line| line.chomp == word }
   end
 
   def evaluate(user_guess)
-    @results = %w[B B B B B]
+    @score = %w[B B B B B]
     characters_of_the_day.each_index do |index|
-      @results[index] = Constants::YELLOW if characters_of_the_day.include? user_guess[index]
-      @results[index] = Constants::GREEN if user_guess[index] == characters_of_the_day[index]
+      @score[index] = Constants::YELLOW if characters_of_the_day.include? user_guess[index]
+      @score[index] = Constants::GREEN if user_guess[index] == characters_of_the_day[index]
     end
     user_guess
   end
@@ -81,15 +73,15 @@ class Wordle
     end
   end
 
-  def archive_results
-    @archive << results
+  def archive_score
+    @archive << score
   end
 
   def increment_attempt
     @attempt += 1
   end
 
-  def show_results(colors = results)
+  def show_score(colors = score)
     colormap = Colors.add_color(colors)
     colormap.each { |color| print color << '|' }
     puts
@@ -97,7 +89,7 @@ class Wordle
 
   def retrieve_archive
     archive.each do |colors|
-      show_results(colors)
+      show_score(colors)
     end
   end
 
@@ -107,9 +99,14 @@ class Wordle
     retrieve_archive
     puts
     puts <<~EOS
-    #{results == Constants::ALL_GREEN ? 'Well done!' : 'Sorry, you did not get it this time!'}
+    #{score == Constants::ALL_GREEN ? 'Well done!' : 'Sorry, you did not get it this time!'}
     The word you are looking for is: #{word_of_the_day.green}
     EOS
+  end
+
+  def play_again?
+    puts 'Do you want to play again? (y/n)'
+    true if gets.downcase.chomp == 'y'
   end
 
 end
