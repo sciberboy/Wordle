@@ -87,9 +87,7 @@ class Wordle
   end
 
   def retrieve_archive
-    archive.each do |colors|
-      show_score(colors)
-    end
+    archive.each { |colors| show_score(colors) }
   end
 
   def end_banner
