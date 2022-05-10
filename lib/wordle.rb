@@ -2,7 +2,7 @@ require_relative './../config/config'
 
 class Wordle
 
-  attr_accessor  :score, :characters_of_the_day
+  attr_accessor  :score
   attr_reader  :dictionary, :word_of_the_day
 
 
