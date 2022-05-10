@@ -2,8 +2,9 @@ require_relative './../config/config'
 
 class Wordle
 
-  attr_accessor  :score
-  attr_reader :word_of_the_day, :dictionary
+  attr_accessor  :score, :characters_of_the_day
+  attr_reader  :dictionary, :word_of_the_day
+
 
   def initialize(dictionary = File.readlines(Constants::WORDS_LIST))
     @dictionary = dictionary
