@@ -5,17 +5,6 @@ class Wordle
   attr_accessor  :score
   attr_reader  :dictionary, :word_of_the_day
 
-
-  def initialize(dictionary = File.readlines(Constants::WORDS_LIST))
-    @dictionary = dictionary
-    @word_of_the_day = dictionary.sample.chomp
-    @characters_of_the_day = word_of_the_day.downcase.chars
-    @attempt = 1
-    @score = []
-    @archive = []
-    puts "The word of the day is: #{word_of_the_day.green}" if $DEBUG
-  end
-
   def play
     until score == Constants::ALL_GREEN || attempt > Constants::ATTEMPT_LIMIT
       start_banner
@@ -46,6 +35,16 @@ class Wordle
 
   attr_accessor :attempt, :archive
   attr_reader :characters_of_the_day, :dictionary
+
+  def initialize(dictionary = File.readlines(Constants::WORDS_LIST))
+    @dictionary = dictionary
+    @word_of_the_day = dictionary.sample.chomp
+    @characters_of_the_day = word_of_the_day.downcase.chars
+    @attempt = 1
+    @score = []
+    @archive = []
+    puts "The word of the day is: #{word_of_the_day.green}" if $DEBUG
+  end
 
   def start_banner
     puts
