@@ -15,12 +15,9 @@ class Wordle
     end
     end_banner
     play_again? ? Wordle.new.play : (puts Constants::BYE)
-    exit(1)
+    exit!
   end
 
-  def valid_word?(word)
-    dictionary.any? { |line| line.chomp == word }
-  end
 
   def evaluate(user_guess)
     @score = %w[B B B B B]
@@ -29,6 +26,25 @@ class Wordle
       @score[index] = Constants::GREEN if user_guess[index] == characters_of_the_day[index]
     end
     user_guess
+  end
+
+  def valid_word?(word)
+    dictionary.any? { |line| line.chomp == word }
+  end
+
+  def validate(word)
+    if word == 'x'
+      end_banner
+      exit!
+    elsif word.length != 5
+      puts Constants::WORD_LENGTH
+      play
+    elsif !valid_word?(word)
+      puts Constants::WORD_INVALID
+      play
+    else
+      word.chars
+    end
   end
 
   private
@@ -51,25 +67,9 @@ class Wordle
     puts "Attempt #{attempt}"
   end
 
-  def user_input
-    evaluate(guess).each {|character| print character.yellow << ' '}
+  def user_input(guess = gets.chomp.downcase)
+    evaluate(validate(guess)).each {|character| print character.yellow << ' '}
     puts
-  end
-
-  def guess
-    word = gets.chomp.downcase
-    if word == 'x'
-      end_banner
-      exit(1)
-    elsif word.length != 5
-      puts Constants::WORD_LENGTH
-      play
-    elsif !valid_word?(word)
-      puts Constants::WORD_INVALID
-      play
-    else
-      word.chars
-    end
   end
 
   def archive_score
