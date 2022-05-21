@@ -16,6 +16,7 @@ class Wordle
         puts Constants::WORD_INVALID
       else
         evaluate(word)
+        puts word.chars.map {|char| char}.join(' ')
         show_score
         archive_score
         increment_attempt
@@ -30,13 +31,12 @@ class Wordle
 
   def evaluate(user_guess, word = word_of_the_day)
     guess = user_guess.downcase.chars
-    todays_characters = word.downcase.chars
+    given = word.downcase.chars
     @score = %w[B B B B B]
-    todays_characters.each_index do |index|
-      @score[index] = Constants::YELLOW if todays_characters.include? guess[index]
-      @score[index] = Constants::GREEN if guess[index] == todays_characters[index]
+    given.each_index do |index|
+      @score[index] = Constants::YELLOW if given.include? guess[index]
+      @score[index] = Constants::GREEN if given[index] == guess[index]
     end
-    user_guess
   end
 
   private
@@ -85,6 +85,7 @@ class Wordle
     The word you are looking for is: #{word_of_the_day.green}
     EOS
   end
+
   def end_this_game
     end_banner
     play_again? ? Wordle.new.play : (puts Constants::BYE)
