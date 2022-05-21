@@ -3,17 +3,6 @@ require_relative './../config/config'
 class Wordle
 
   attr_accessor :attempt, :archive, :score
-  attr_reader :characters_of_the_day, :dictionary
-  attr_reader  :dictionary, :word_of_the_day
-
-  def initialize(dictionary = File.readlines(Constants::WORDS_LIST))
-    @dictionary = dictionary
-    @word_of_the_day = dictionary.sample.chomp
-    @attempt = 1
-    @score = []
-    @archive = []
-    puts "The word of the day is: #{word_of_the_day.green}" if $DEBUG
-  end
 
   def play
     until score == Constants::ALL_GREEN || attempt > Constants::ATTEMPT_LIMIT
@@ -35,7 +24,6 @@ class Wordle
     end_this_game
   end
 
-
   def valid_word?(word)
     dictionary.any? { |line| line.chomp == word }
   end
@@ -49,6 +37,19 @@ class Wordle
       @score[index] = Constants::GREEN if guess[index] == todays_characters[index]
     end
     user_guess
+  end
+
+  private
+
+  attr_reader  :dictionary, :word_of_the_day
+
+  def initialize(dictionary = File.readlines(Constants::WORDS_LIST))
+    @dictionary = dictionary
+    @word_of_the_day = dictionary.sample.chomp
+    @attempt = 1
+    @score = []
+    @archive = []
+    puts "The word of the day is: #{word_of_the_day.green}" if $DEBUG
   end
 
   def start_banner
