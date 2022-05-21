@@ -35,16 +35,10 @@ class Wordle
     end_this_game
   end
 
-  def end_this_game
-    end_banner
-    play_again? ? Wordle.new.play : (puts Constants::BYE)
-    exit!
-  end
 
   def valid_word?(word)
     dictionary.any? { |line| line.chomp == word }
   end
-
 
   def evaluate(user_guess, word = word_of_the_day)
     guess = user_guess.downcase.chars
@@ -56,7 +50,6 @@ class Wordle
     end
     user_guess
   end
-
 
   def start_banner
     puts
@@ -90,6 +83,11 @@ class Wordle
     #{score == Constants::ALL_GREEN ? 'Well done!' : 'Sorry, you did not get it this time!'}
     The word you are looking for is: #{word_of_the_day.green}
     EOS
+  end
+  def end_this_game
+    end_banner
+    play_again? ? Wordle.new.play : (puts Constants::BYE)
+    exit!
   end
 
   def play_again?

@@ -23,5 +23,4 @@ class Wordle_test < Minitest::Test
   def test_word_is_in_wordlist
     assert_equal true, Wordle.new.valid_word?('sword')
   end
-
 end
