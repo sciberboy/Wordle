@@ -16,7 +16,7 @@ class Wordle
         puts Constants::WORD_INVALID
       else
         evaluate(word)
-        puts word.chars.map {|char| char}.join(' ')
+        puts word.chars.map {|char| char}.join(' ').yellow
         show_score
         archive_score
         increment_attempt
