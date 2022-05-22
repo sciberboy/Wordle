@@ -16,7 +16,7 @@ class Wordle_test < Minitest::Test
     assert_equal (puts Constants::WORD_LENGTH), game.manage_flow
   end
 
-  def test_guesss_is_words
+  def test_guess_is_words
     game = Wordle.new
     game.guess = 'words'
     game.word_of_the_day = 'words'
