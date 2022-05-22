@@ -4,6 +4,12 @@ require 'wordle'
 
 class Wordle_test < Minitest::Test
 
+  def test_banner_output
+    game = Wordle.new
+    game.attempt = 4
+    assert_equal "Attempt 4", game.start_banner
+  end
+
   def test_input_greater_than_expected
     game = Wordle.new
     game.guess = 'beginner'
