@@ -2,59 +2,63 @@ require_relative './../config/config'
 
 class Wordle
 
-  attr_accessor :attempt, :archive, :score
+  attr_accessor :attempt, :guess, :score, :word_of_the_day
 
   def play
     until score == Constants::ALL_GREEN || attempt > Constants::ATTEMPT_LIMIT
-      start_banner
-      word = gets.chomp.downcase
-      if word == 'x'
-        end_this_game
-      elsif word.length != 5
-        puts Constants::WORD_LENGTH
-      elsif !valid_word?(word)
-        puts Constants::WORD_INVALID
-      else
-        evaluate(word)
-        puts word.chars.map {|char| char}.join(' ').yellow
-        show_score
-        archive_score
-        increment_attempt
-      end
+      puts start_banner
+      @guess = gets.chomp.downcase
+      manage_flow
     end
     end_this_game
   end
 
-  def valid_word?(word)
-    dictionary.any? { |line| line.chomp == word }
+  def manage_flow
+    if guess == 'x'
+      end_this_game
+    elsif guess.length != 5
+      puts Constants::WORD_LENGTH
+    elsif !valid_word?
+      puts Constants::WORD_INVALID
+    else
+      evaluate_guess
+      puts colorize
+      puts color_map
+      archive_score
+      increment_attempt
+    end
   end
 
-  def evaluate(user_guess, word = word_of_the_day)
-    guess = user_guess.downcase.chars
-    given = word.downcase.chars
+    def valid_word?
+    dictionary.any? { |line| line.chomp == guess}
+  end
+
+  def evaluate_guess
+    given = word_of_the_day.downcase.chars
+    word = guess.chars
     @score = %w[B B B B B]
     given.each_index do |index|
-      @score[index] = Constants::YELLOW if given.include? guess[index]
-      @score[index] = Constants::GREEN if given[index] == guess[index]
+      @score[index] = Constants::YELLOW if given.include? word[index]
+      @score[index] = Constants::GREEN if given[index] == word[index]
     end
   end
 
   private
 
-  attr_reader  :dictionary, :word_of_the_day
+  attr_reader :archive, :dictionary, :word_of_the_day
 
   def initialize(dictionary = File.readlines(Constants::WORDS_LIST))
     @dictionary = dictionary
-    @word_of_the_day = dictionary.sample.chomp
+    @word_of_the_day = dictionary.sample.downcase.chomp
     @attempt = 1
+    @word = ''
     @score = []
     @archive = []
     puts "The word of the day is: #{word_of_the_day.green}" if $DEBUG
   end
 
   def start_banner
-    puts
-    puts "Attempt #{attempt}"
+    format "Attempt #{attempt}"
   end
 
   def archive_score
@@ -65,14 +69,17 @@ class Wordle
     @attempt += 1
   end
 
-  def show_score(colors = score)
+  def color_map(colors = score)
     colormap = Colors.add_color(colors)
-    colormap.each { |color| print color << '|' }
-    puts
+    colormap.map { |color| print color << '|' }.join(' ')
+  end
+
+  def colorize(word = guess)
+    word.chars.map {|char| char}.join(' ').yellow
   end
 
   def retrieve_archive
-    archive.each { |colors| show_score(colors) }
+    archive.each { |colors| color_map(colors) }
   end
 
   def end_banner
