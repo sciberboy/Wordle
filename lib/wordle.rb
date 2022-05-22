@@ -4,13 +4,12 @@ class Wordle
 
   attr_accessor :attempt, :guess, :score, :word_of_the_day
 
-  def play
-    until score == Constants::ALL_GREEN || attempt > Constants::ATTEMPT_LIMIT
-      puts start_banner
-      @guess = gets.chomp.downcase
-      manage_flow
-    end
-    end_this_game
+  def start_banner
+    format "Attempt #{attempt}"
+  end
+
+  def get_guess
+    @guess = gets.chomp.downcase
   end
 
   def manage_flow
@@ -29,7 +28,7 @@ class Wordle
     end
   end
 
-    def valid_word?
+  def valid_word?
     dictionary.any? { |line| line.chomp == guess}
   end
 
@@ -41,6 +40,12 @@ class Wordle
       @score[index] = Constants::YELLOW if given.include? word[index]
       @score[index] = Constants::GREEN if given[index] == word[index]
     end
+  end
+
+  def end_this_game
+    end_banner
+    play_again? ? Wordle.new.play : (puts Constants::BYE)
+    exit!
   end
 
   private
@@ -55,10 +60,6 @@ class Wordle
     @score = []
     @archive = []
     puts "The word of the day is: #{word_of_the_day.green}" if $DEBUG
-  end
-
-  def start_banner
-    format "Attempt #{attempt}"
   end
 
   def archive_score
@@ -91,12 +92,6 @@ class Wordle
     #{score == Constants::ALL_GREEN ? 'Well done!' : 'Sorry, you did not get it this time!'}
     The word you are looking for is: #{word_of_the_day.green}
     EOS
-  end
-
-  def end_this_game
-    end_banner
-    play_again? ? Wordle.new.play : (puts Constants::BYE)
-    exit!
   end
 
   def play_again?
