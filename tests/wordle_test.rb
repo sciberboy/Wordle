@@ -16,6 +16,12 @@ class Wordle_test < Minitest::Test
     assert_equal (puts Constants::WORD_LENGTH), game.manage_flow
   end
 
+  def test_input_invalid
+    game = Wordle.new
+    game.guess = 'skool'
+    assert_equal (puts Constants::WORD_INVALID), game.manage_flow
+  end
+
   def test_word_is_less_than_five_characters
     game = Wordle.new
     game.guess = ('more')
