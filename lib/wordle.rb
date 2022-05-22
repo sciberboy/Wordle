@@ -16,9 +16,9 @@ class Wordle
     if guess == 'x'
       end_this_game
     elsif guess.length != 5
-      puts Constants::WORD_LENGTH
+      return puts Constants::WORD_LENGTH
     elsif !valid_word?
-      puts Constants::WORD_INVALID
+      return puts Constants::WORD_INVALID
     else
       evaluate_guess
       puts colorize

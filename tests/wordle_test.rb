@@ -4,6 +4,18 @@ require 'wordle'
 
 class Wordle_test < Minitest::Test
 
+  def test_input_greater_than_expected
+    game = Wordle.new
+    game.guess = 'beginner'
+    assert_equal (puts Constants::WORD_LENGTH), game.manage_flow
+  end
+
+  def test_word_is_less_than_five_characters
+    game = Wordle.new
+    game.guess = ('more')
+    assert_equal (puts Constants::WORD_LENGTH), game.manage_flow
+  end
+
   def test_guesss_is_words
     game = Wordle.new
     game.guess = 'words'
@@ -31,4 +43,5 @@ class Wordle_test < Minitest::Test
     game.guess = ('sword')
     assert_equal true, game.valid_word?
   end
+
 end
