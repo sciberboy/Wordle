@@ -80,8 +80,8 @@ class Wordle
     colormap.map { |color| format color << '|' }.join
   end
 
-  def colorize(word = guess)
-    word.chars.map {|char| char}.join(' ').yellow
+  def colorize
+    guess.chars.map {|char| char}.join(' ').yellow
   end
 
   def retrieve_archive
