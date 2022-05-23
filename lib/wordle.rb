@@ -2,7 +2,10 @@ require_relative './../config/config'
 
 class Wordle
 
-  attr_accessor :attempt, :guess, :score, :word_of_the_day
+  attr_accessor :attempt,
+                :guess,
+                :score,
+                :word_of_the_day
 
   def start_banner
     format "Attempt #{attempt}"
@@ -34,11 +37,11 @@ class Wordle
 
   def evaluate_guess
     given = word_of_the_day.downcase.chars
-    word = guess.chars
+    guessed = guess.chars
     @score = %w[B B B B B]
     given.each_index do |index|
-      @score[index] = Constants::YELLOW if given.include? word[index]
-      @score[index] = Constants::GREEN if given[index] == word[index]
+      @score[index] = Constants::YELLOW if given.include? guessed[index]
+      @score[index] = Constants::GREEN if given[index] == guessed[index]
     end
   end
 
@@ -50,7 +53,9 @@ class Wordle
 
   private
 
-  attr_reader :archive, :dictionary, :word_of_the_day
+  attr_reader :archive,
+              :dictionary,
+              :word_of_the_day
 
   def initialize(dictionary = File.readlines(Constants::WORDS_LIST))
     @dictionary = dictionary
@@ -72,7 +77,7 @@ class Wordle
 
   def color_map(colors = score)
     colormap = Colors.add_color(colors)
-    colormap.map { |color| print color << '|' }.join(' ')
+    colormap.map { |color| format color << '|' }.join
   end
 
   def colorize(word = guess)
@@ -80,17 +85,17 @@ class Wordle
   end
 
   def retrieve_archive
-    archive.each { |colors| color_map(colors) }
+    archive.map { |colors| color_map(colors) }
   end
 
   def end_banner
-    puts
-    puts "H i s t o r y:".yellow
-    retrieve_archive
-    puts
+    puts 'History:'.yellow
+    puts retrieve_archive
     puts <<~EOS
+
     #{score == Constants::ALL_GREEN ? 'Well done!' : 'Sorry, you did not get it this time!'}
     The word you are looking for is: #{word_of_the_day.green}
+
     EOS
   end
 
