@@ -8,8 +8,8 @@ module Constants
   GREEN = 'G'
   YELLOW = 'Y'
   ATTEMPT_LIMIT = 6
-  WORD_LENGTH = 'Please try again! The word should be exactly 5 characters in length.'.red
-  WORD_INVALID = 'Please try again! The word you entered is not in the word list.'.red
+  WORD_LENGTH = 'The word should be exactly 5 characters in length. Please try again.'.yellow
+  WORD_INVALID = 'The word you entered is not in the word list. Please try again.'.yellow
   BYE = 'Thank you for playing!'.yellow
 
 end

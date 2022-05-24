@@ -19,9 +19,9 @@ class Wordle
     if guess == 'x'
       end_this_game
     elsif guess.length != 5
-      return puts Constants::WORD_LENGTH
+      puts Constants::WORD_LENGTH
     elsif !valid_word?
-      return puts Constants::WORD_INVALID
+      puts Constants::WORD_INVALID
     else
       evaluate_guess
       puts colorize
@@ -91,12 +91,12 @@ class Wordle
   def end_banner
     puts 'History:'.yellow
     puts retrieve_archive
-    puts <<~EOS
+    puts <<~REPORT
 
-    #{score == Constants::ALL_GREEN ? 'Well done!' : 'Sorry, you did not get it this time!'}
-    The word you are looking for is: #{word_of_the_day.green}
+      #{score == Constants::ALL_GREEN ? 'Well done!' : 'Sorry, you did not get it this time!'}
+      The word you are looking for is: #{word_of_the_day.green}
 
-    EOS
+    REPORT
   end
 
   def play_again?
