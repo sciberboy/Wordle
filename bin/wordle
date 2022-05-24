@@ -5,11 +5,5 @@ require 'wordle'
 if $PROGRAM_NAME == __FILE__
   puts 'Welcome to the Sciberboy & KOTP Wordle Clone!'
   puts "Type 'x' to quit the game at any time."
-  w = Wordle.new
-  until w.score === Constants::ALL_GREEN || w.attempt > Constants::ATTEMPT_LIMIT
-    puts w.start_banner
-    w.get_guess
-    w.manage_flow
-  end
-  w.end_this_game
+  Wordle.new.play
 end

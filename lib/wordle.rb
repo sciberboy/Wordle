@@ -11,7 +11,7 @@ class Wordle
     format "Attempt #{attempt}"
   end
 
-  def get_guess
+  def guess_word
     @guess = gets.chomp.downcase
   end
 
@@ -45,6 +45,15 @@ class Wordle
     end
   end
 
+  def play
+    until score == Constants::ALL_GREEN || attempt > Constants::ATTEMPT_LIMIT
+      puts start_banner
+      guess_word
+      manage_flow
+    end
+    end_this_game
+  end
+
   def end_this_game
     end_banner
     play_again? ? Wordle.new.play : (puts Constants::BYE)
@@ -54,8 +63,7 @@ class Wordle
   private
 
   attr_reader :archive,
-              :dictionary,
-              :word_of_the_day
+              :dictionary
 
   def initialize(dictionary = File.readlines(Constants::WORDS_LIST))
     @dictionary = dictionary
