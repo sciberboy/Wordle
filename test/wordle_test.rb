@@ -13,19 +13,19 @@ class Wordle_test < Minitest::Test
   def test_input_greater_than_expected
     game = Wordle.new
     game.guess = 'beginner'
-    assert_equal (puts Constants::WORD_LENGTH), game.manage_flow
+    assert_equal [false, Constants::WORD_LENGTH], game.manage_flow
   end
 
   def test_input_invalid
     game = Wordle.new
     game.guess = 'skool'
-    assert_equal (puts Constants::WORD_INVALID), game.manage_flow
+    assert_equal [false, Constants::WORD_INVALID], game.manage_flow
   end
 
   def test_word_is_less_than_five_characters
     game = Wordle.new
     game.guess = ('more')
-    assert_equal (puts Constants::WORD_LENGTH), game.manage_flow
+    assert_equal [false, Constants::WORD_LENGTH], game.manage_flow
   end
 
   def test_guess_is_words

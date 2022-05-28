@@ -10,7 +10,6 @@ class Wordle
   def start_banner
     format "Attempt #{attempt}"
   end
-
   def guess_word
     @guess = gets.chomp.downcase
   end
@@ -19,15 +18,16 @@ class Wordle
     if guess == 'x'
       end_this_game
     elsif guess.length != 5
-      puts Constants::WORD_LENGTH
+      [false, Constants::WORD_LENGTH]
     elsif !valid_word?
-      puts Constants::WORD_INVALID
+      [false, Constants::WORD_INVALID]
     else
       evaluate_guess
       puts colorize
       puts color_map
       archive_score
       increment_attempt
+      [true, '']
     end
   end
 
@@ -49,7 +49,8 @@ class Wordle
     until score == Constants::ALL_GREEN || attempt > Constants::ATTEMPT_LIMIT
       puts start_banner
       guess_word
-      manage_flow
+      status, message = manage_flow
+      puts message unless status
     end
     end_this_game
   end
