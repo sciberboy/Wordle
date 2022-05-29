@@ -7,6 +7,16 @@ class Wordle
                 :score,
                 :word_of_the_day
 
+  def play
+    until score == Constants::ALL_GREEN || attempt > Constants::ATTEMPT_LIMIT
+      puts start_banner
+      guess_word
+      status, message = manage_flow
+      puts message unless status
+    end
+    end_this_game
+  end
+
   def start_banner
     format "Attempt #{attempt}"
   end
