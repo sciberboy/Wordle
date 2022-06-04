@@ -18,7 +18,7 @@ class Wordle
   end
 
   def start_banner
-    format "Attempt #{attempt}"
+    "Attempt #{attempt}"
   end
   def guess_word
     @guess = gets.chomp.downcase
@@ -96,7 +96,7 @@ class Wordle
 
   def color_map(colors = score)
     colormap = Colors.add_color(colors)
-    colormap.map { |color| format color << '|' }.join
+    colormap.map { |color| color << '|' }.join
   end
 
   def colorize
