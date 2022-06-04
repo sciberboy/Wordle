@@ -20,6 +20,7 @@ class Wordle
   def start_banner
     "Attempt #{attempt}"
   end
+
   def guess_word
     @guess = gets.chomp.downcase
   end
@@ -53,16 +54,6 @@ class Wordle
       @score[index] = Constants::YELLOW if given.include? guessed[index]
       @score[index] = Constants::GREEN if given[index] == guessed[index]
     end
-  end
-
-  def play
-    until score == Constants::ALL_GREEN || attempt > Constants::ATTEMPT_LIMIT
-      puts start_banner
-      guess_word
-      status, message = manage_flow
-      puts message unless status
-    end
-    end_this_game
   end
 
   def end_this_game
