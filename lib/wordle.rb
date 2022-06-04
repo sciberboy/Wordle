@@ -100,7 +100,7 @@ class Wordle
   end
 
   def colorize
-    guess.chars.map {|char| char}.join(' ').yellow
+    guess.chars.map { |char| char }.join(' ').yellow
   end
 
   def retrieve_archive
