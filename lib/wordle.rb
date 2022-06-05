@@ -99,6 +99,7 @@ class Wordle
   end
 
   def end_banner
+    puts
     puts 'History:'.yellow
     puts retrieve_archive
     puts <<~REPORT
