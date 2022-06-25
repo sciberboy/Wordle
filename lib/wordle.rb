@@ -22,7 +22,7 @@ class Wordle
   end
 
   def guess_word
-    @guess = gets.chomp.downcase
+    self.guess = gets.chomp.downcase
   end
 
   def manage_flow
@@ -49,10 +49,10 @@ class Wordle
   def evaluate_guess
     given = word_of_the_day.downcase.chars
     guessed = guess.chars
-    @score = %w[B B B B B]
+    self.score = %w[B B B B B]
     given.each_index do |index|
-      @score[index] = Constants::YELLOW if given.include? guessed[index]
-      @score[index] = Constants::GREEN if given[index] == guessed[index]
+      self.score[index] = Constants::YELLOW if given.include? guessed[index]
+      self.score[index] = Constants::GREEN if given[index] == guessed[index]
     end
   end
 
@@ -64,8 +64,8 @@ class Wordle
 
   private
 
-  attr_reader :archive,
-              :dictionary
+  attr_accessor :archive,
+                :dictionary
 
   def initialize(dictionary = File.readlines(Constants::WORDS_LIST))
     @dictionary = dictionary
@@ -78,11 +78,11 @@ class Wordle
   end
 
   def archive_score
-    @archive << score
+    self.archive << score
   end
 
   def increment_attempt
-    @attempt += 1
+    self.attempt += 1
   end
 
   def color_map(colors = score)
