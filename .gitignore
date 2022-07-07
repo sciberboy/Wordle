@@ -1,0 +1,6 @@
+# Ignore the generated coverage reports
+coverage/
+
+# Ignore the Bundle items
+.bundle/
+Gemfile.lock
