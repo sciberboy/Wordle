@@ -111,8 +111,12 @@ class Wordle
     REPORT
   end
 
+  def continue?(response, continue = ['y', ''])
+    continue.include? response
+  end
+
   def play_again?
-    puts 'Do you want to play again? (y/n)'
-    true if gets.downcase.chomp == 'y'
+    puts 'Do you want to play again? (Y/n)'
+    continue? gets.downcase.chomp
   end
 end
