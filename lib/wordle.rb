@@ -102,10 +102,11 @@ class Wordle
     puts
     puts 'History:'.yellow
     puts retrieve_archive
-    puts <<~REPORT
+    response = score == Constants::ALL_GREEN ? 'Well done!' : 'Sorry, you did not get it this time!'
+    puts <<~REPORT % [response, word_of_the_day.green]
 
-      #{score == Constants::ALL_GREEN ? 'Well done!' : 'Sorry, you did not get it this time!'}
-      The word you are looking for is: #{word_of_the_day.green}
+      %s
+      The word you are looking for is: %s
 
     REPORT
   end
