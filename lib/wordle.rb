@@ -30,9 +30,9 @@ class Wordle
     if guess == 'x'
       end_this_game
     elsif guess.length != 5
-      [false, MESSAGE[:WORD_LENGTH]]
+      [false, MESSAGE[:word_length]]
     elsif !valid_word?
-      [false, MESSAGE[:WORD_INVALID]]
+      [false, MESSAGE[:word_invalid]]
     else
       evaluate_guess
       puts colorize
@@ -59,7 +59,7 @@ class Wordle
 
   def end_this_game
     end_banner
-    play_again? ? Wordle.new.play : (puts MESSAGE[:BYE])
+    play_again? ? Wordle.new.play : (puts MESSAGE[:bye])
     exit!
   end
 

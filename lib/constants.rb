@@ -10,9 +10,9 @@ module Constants
   ATTEMPT_LIMIT = 6
   MESSAGE =
     {
-      WORD_LENGTH: 'The word should be exactly 5 characters in length. Please try again.'.yellow,
-      WORD_INVALID: 'The word you entered is not in the word list. Please try again.'.yellow,
-      BYE: 'Thank you for playing!'.yellow
+      word_length: 'The word should be exactly 5 characters in length. Please try again.'.yellow,
+      word_invalid: 'The word you entered is not in the word list. Please try again.'.yellow,
+      bye: 'Thank you for playing!'.yellow
   }
 
 end
