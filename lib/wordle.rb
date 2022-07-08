@@ -3,10 +3,10 @@ require_relative './../config/config'
 class Wordle
   include Constants
 
-  attr_accessor :attempt,
-                :guess,
-                :score,
-                :word_of_the_day
+  attr_reader :attempt,
+              :guess,
+              :score,
+              :word_of_the_day
 
   def play
     until score == ALL_GREEN || attempt > ATTEMPT_LIMIT
@@ -67,6 +67,11 @@ class Wordle
 
   attr_accessor :archive,
                 :dictionary
+
+  attr_writer :attempt,
+              :guess,
+              :score,
+              :word_of_the_day
 
   def initialize(dictionary = File.readlines(WORDS_LIST))
     @dictionary = dictionary
