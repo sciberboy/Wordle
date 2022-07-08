@@ -1,6 +1,7 @@
 require_relative './../config/config'
 
 class Wordle
+  include Constants
 
   attr_accessor :attempt,
                 :guess,
@@ -8,7 +9,7 @@ class Wordle
                 :word_of_the_day
 
   def play
-    until score == Constants::ALL_GREEN || attempt > Constants::ATTEMPT_LIMIT
+    until score == ALL_GREEN || attempt > ATTEMPT_LIMIT
       puts start_banner
       guess_word
       status, message = manage_flow
@@ -29,9 +30,9 @@ class Wordle
     if guess == 'x'
       end_this_game
     elsif guess.length != 5
-      [false, Constants::WORD_LENGTH]
+      [false, MESSAGE[:WORD_LENGTH]]
     elsif !valid_word?
-      [false, Constants::WORD_INVALID]
+      [false, MESSAGE[:WORD_INVALID]]
     else
       evaluate_guess
       puts colorize
@@ -43,7 +44,7 @@ class Wordle
   end
 
   def valid_word?
-    dictionary.any? { |line| line.chomp == guess}
+    dictionary.any? { |line| line.chomp == guess }
   end
 
   def evaluate_guess
@@ -51,14 +52,14 @@ class Wordle
     guessed = guess.chars
     self.score = %w[B B B B B]
     given.each_index do |index|
-      self.score[index] = Constants::YELLOW if given.include? guessed[index]
-      self.score[index] = Constants::GREEN if given[index] == guessed[index]
+      score[index] = YELLOW if given.include? guessed[index]
+      score[index] = GREEN if given[index] == guessed[index]
     end
   end
 
   def end_this_game
     end_banner
-    play_again? ? Wordle.new.play : (puts Constants::BYE)
+    play_again? ? Wordle.new.play : (puts MESSAGE[:BYE])
     exit!
   end
 
@@ -67,7 +68,7 @@ class Wordle
   attr_accessor :archive,
                 :dictionary
 
-  def initialize(dictionary = File.readlines(Constants::WORDS_LIST))
+  def initialize(dictionary = File.readlines(WORDS_LIST))
     @dictionary = dictionary
     @word_of_the_day = dictionary.sample.downcase.chomp
     @attempt = 1
@@ -78,7 +79,7 @@ class Wordle
   end
 
   def archive_score
-    self.archive << score
+    archive << score
   end
 
   def increment_attempt
@@ -102,7 +103,7 @@ class Wordle
     puts
     puts 'History:'.yellow
     puts retrieve_archive
-    response = score == Constants::ALL_GREEN ? 'Well done!' : 'Sorry, you did not get it this time!'
+    response = score == ALL_GREEN ? 'Well done!' : 'Sorry, you did not get it this time!'
     puts format(<<~REPORT, response, word_of_the_day.green)
 
       %s
