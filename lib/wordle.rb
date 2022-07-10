@@ -75,7 +75,7 @@ class Wordle
     puts 'History:'.yellow
     puts retrieve_archive
     response = score == ALL_GREEN ? 'Well done!' : 'Sorry, you did not get it this time!'
-    puts format(<<~REPORT, response, word_of_the_day.green)
+    puts <<~REPORT % [response, word_of_the_day.green]
 
       %s
       The word you are looking for is: %s
