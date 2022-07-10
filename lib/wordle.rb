@@ -13,23 +13,6 @@ class Wordle
     end_this_game
   end
 
-  def manage_flow
-    if guess == 'x'
-      end_this_game
-    elsif guess.length != 5
-      [false, MESSAGE[:word_length]]
-    elsif !valid_word?
-      [false, MESSAGE[:word_invalid]]
-    else
-      evaluate_guess
-      puts colorize
-      puts color_map
-      archive_score
-      increment_attempt
-      [true, '']
-    end
-  end
-
   private
 
   attr_accessor :archive,
@@ -47,6 +30,23 @@ class Wordle
     @score = []
     @archive = []
     puts "The word of the day is: #{word_of_the_day.green}" if $DEBUG
+  end
+
+  def manage_flow
+    if guess == 'x'
+      end_this_game
+    elsif guess.length != 5
+      [false, MESSAGE[:word_length]]
+    elsif !valid_word?
+      [false, MESSAGE[:word_invalid]]
+    else
+      evaluate_guess
+      puts colorize
+      puts color_map
+      archive_score
+      increment_attempt
+      [true, '']
+    end
   end
 
   def archive_score
