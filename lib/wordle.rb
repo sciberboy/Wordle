@@ -44,7 +44,6 @@ class Wordle
     @dictionary = dictionary
     @word_of_the_day = dictionary.sample.downcase.chomp
     @attempt = 1
-    @word = ''
     @score = []
     @archive = []
     puts "The word of the day is: #{word_of_the_day.green}" if $DEBUG
