@@ -12,7 +12,7 @@ module Constants
     {
       word_length: 'The word should be exactly 5 characters in length. Please try again.'.yellow,
       word_invalid: 'The word you entered is not in the word list. Please try again.'.yellow,
-      bye: 'Thank you for playing!'.yellow
+      bye: 'Thank you for playing!'.red
   }
 
 end
