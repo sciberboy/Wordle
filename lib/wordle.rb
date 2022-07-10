@@ -3,11 +3,6 @@ require_relative './../config/config'
 class Wordle
   include Constants
 
-  attr_reader :attempt,
-              :guess,
-              :score,
-              :word_of_the_day
-
   def play
     until score == ALL_GREEN || attempt > ATTEMPT_LIMIT
       puts start_banner
@@ -16,14 +11,6 @@ class Wordle
       puts message unless status
     end
     end_this_game
-  end
-
-  def start_banner
-    "Attempt #{attempt}"
-  end
-
-  def guess_word
-    self.guess = gets.chomp.downcase
   end
 
   def manage_flow
@@ -43,35 +30,15 @@ class Wordle
     end
   end
 
-  def valid_word?
-    dictionary.any? { |line| line.chomp == guess }
-  end
-
-  def evaluate_guess
-    given = word_of_the_day.downcase.chars
-    guessed = guess.chars
-    self.score = %w[B B B B B]
-    given.each_index do |index|
-      score[index] = YELLOW if given.include? guessed[index]
-      score[index] = GREEN if given[index] == guessed[index]
-    end
-  end
-
-  def end_this_game
-    end_banner
-    play_again? ? Wordle.new.play : (puts MESSAGE[:bye])
-    exit!
-  end
-
   private
 
   attr_accessor :archive,
-                :dictionary
+                :attempt,
+                :guess,
+                :score,
+                :word_of_the_day
 
-  attr_writer :attempt,
-              :guess,
-              :score,
-              :word_of_the_day
+  attr_reader :dictionary
 
   def initialize(dictionary = File.readlines(WORDS_LIST))
     @dictionary = dictionary
@@ -117,6 +84,10 @@ class Wordle
     REPORT
   end
 
+  def guess_word
+    self.guess = gets.chomp.downcase
+  end
+
   def continue?(response, continue = ['y', ''])
     continue.include? response
   end
@@ -125,4 +96,29 @@ class Wordle
     puts 'Do you want to play again? (Y/n)'
     continue? gets.downcase.chomp
   end
+
+  def start_banner
+    "Attempt #{attempt}"
+  end
+
+  def valid_word?
+    dictionary.any? { |line| line.chomp == guess }
+  end
+
+  def evaluate_guess
+    given = word_of_the_day.downcase.chars
+    guessed = guess.chars
+    self.score = %w[B B B B B]
+    given.each_index do |index|
+      score[index] = YELLOW if given.include? guessed[index]
+      score[index] = GREEN if given[index] == guessed[index]
+    end
+  end
+
+  def end_this_game
+    end_banner
+    play_again? ? Wordle.new.play : (puts MESSAGE[:bye])
+    exit!
+  end
+
 end
