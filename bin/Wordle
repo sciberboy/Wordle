@@ -1,0 +1,46 @@
+#!/usr/bin/env ruby
+require_relative './../config/config'
+require 'wordle_game'
+
+class Wordle
+  include Constants
+
+  attr_accessor :game
+
+  def initialize
+    @game = WordleGame.new
+  end
+
+  def start
+    until game.score == ALL_GREEN || game.attempt > ATTEMPT_LIMIT
+      puts game.start_banner
+      game.guess_word
+      status, message = manage_flow
+      puts message unless status
+    end
+    game.end_this_game
+  end
+
+  def manage_flow
+    if game.guess == 'x'
+      game.end_this_game
+    elsif game.guess.length != 5
+      [false, MESSAGE[:word_length]]
+    elsif !game.valid_word?
+      [false, MESSAGE[:word_invalid]]
+    else
+      game.evaluate_guess
+      puts game.colorize
+      puts game.color_map
+      game.archive_score
+      game.increment_attempt
+      [true, '']
+    end
+  end
+end
+
+if $PROGRAM_NAME == __FILE__
+  puts 'Welcome to the Sciberboy & KOTP WordleGame Clone!'
+  puts "Type 'x' to quit the game at any time."
+  Wordle.new.start
+end
