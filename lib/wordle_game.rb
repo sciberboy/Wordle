@@ -1,30 +1,15 @@
 require_relative './../config/config'
 
-class Wordle
+class WordleGame
   include Constants
-
-  attr_reader :score
-
-  def play
-    until score == ALL_GREEN || attempt > ATTEMPT_LIMIT
-      puts start_banner
-      guess_word
-      status, message = manage_flow
-      puts message unless status
-    end
-    end_this_game
-  end
-
-  private
 
   attr_accessor :archive,
                 :attempt,
                 :guess,
-                :word_of_the_day
+                :word_of_the_day,
+                :score
 
   attr_reader :dictionary
-
-  attr_writer :score
 
   def initialize(dictionary = File.readlines(WORDS_LIST))
     @dictionary = dictionary
@@ -32,23 +17,6 @@ class Wordle
     @attempt = 1
     @archive = []
     puts "The word of the day is: #{word_of_the_day.green}" if $DEBUG
-  end
-
-  def manage_flow
-    if guess == 'x'
-      end_this_game
-    elsif guess.length != 5
-      [false, MESSAGE[:word_length]]
-    elsif !valid_word?
-      [false, MESSAGE[:word_invalid]]
-    else
-      evaluate_guess
-      puts colorize
-      puts color_map
-      archive_score
-      increment_attempt
-      [true, '']
-    end
   end
 
   def archive_score
@@ -118,7 +86,7 @@ class Wordle
 
   def end_this_game
     end_banner
-    play_again? ? Wordle.new.play : (puts MESSAGE[:bye])
+    play_again? ? Wordle.new.start : (puts MESSAGE[:bye])
     exit!
   end
 
