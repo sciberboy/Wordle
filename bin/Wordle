@@ -24,7 +24,7 @@ module WordleRunner
           puts message
         end
       end
-      game.end_this_game
+      game.end_game
     end
 
   end

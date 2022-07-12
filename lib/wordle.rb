@@ -17,7 +17,7 @@ class Wordle
 
   def manage_flow
     if guess == 'x'
-      end_this_game
+      end_game
     elsif guess.length != 5
       [false, MESSAGE[:word_length]]
     elsif !valid_word?
@@ -36,11 +36,10 @@ class Wordle
   end
 
   def colorize
-    #guess.chars.map { |char| char }.join(' ').yellow
     guess.chars.join(' ').yellow
   end
 
-  def end_this_game
+  def end_game
     end_banner
     play_again? ? Wordle.new.start : (puts MESSAGE[:bye])
     exit!
