@@ -4,7 +4,8 @@ class WordleGame
   include Constants
 
   attr_accessor :score,
-                :attempt
+                :attempt,
+                :guess
 
   def start_banner
     "Attempt #{attempt}"
@@ -23,12 +24,19 @@ class WordleGame
       [false, MESSAGE[:word_invalid]]
     else
       evaluate_guess
-      puts colorize
-      puts color_map
       archive_score
       increment_attempt
       [true, '']
     end
+  end
+
+  def color_map(colors = score)
+    colormap = Colors.add_color(colors)
+    colormap.map { |color| color << '|' }.join
+  end
+
+  def colorize
+    guess.chars.map { |char| char }.join(' ').yellow
   end
 
   def end_this_game
@@ -40,7 +48,7 @@ class WordleGame
   private
 
   attr_accessor :archive,
-                :guess,
+
                 :word_of_the_day
 
   attr_reader :dictionary
@@ -55,15 +63,6 @@ class WordleGame
 
   def increment_attempt
     self.attempt += 1
-  end
-
-  def color_map(colors = score)
-    colormap = Colors.add_color(colors)
-    colormap.map { |color| color << '|' }.join
-  end
-
-  def colorize
-    guess.chars.map { |char| char }.join(' ').yellow
   end
 
   def retrieve_archive

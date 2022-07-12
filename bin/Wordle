@@ -15,8 +15,13 @@ class Wordle
     until game.score == ALL_GREEN || game.attempt > ATTEMPT_LIMIT
       puts game.start_banner
       game.guess_word
-      status, message = game.manage_flow
-      puts message unless status
+      ok, message = game.manage_flow
+      if ok
+        puts game.colorize
+        puts game.color_map
+      else
+        puts message
+      end
     end
     game.end_this_game
   end
