@@ -48,7 +48,6 @@ class Wordle
   private
 
   attr_accessor :archive,
-
                 :word_of_the_day
 
   attr_reader :dictionary
@@ -90,7 +89,6 @@ class Wordle
     puts 'Do you want to play again? (Y/n)'
     continue? gets.downcase.chomp
   end
-
 
   def valid_word?
     dictionary.any? { |line| line.chomp == guess }
