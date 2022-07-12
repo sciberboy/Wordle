@@ -36,7 +36,8 @@ class Wordle
   end
 
   def colorize
-    guess.chars.map { |char| char }.join(' ').yellow
+    #guess.chars.map { |char| char }.join(' ').yellow
+    guess.chars.join(' ').yellow
   end
 
   def end_this_game
