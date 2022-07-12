@@ -1,6 +1,6 @@
 require_relative './../config/config'
 
-class WordleGame
+class Wordle
   include Constants
 
   attr_accessor :score,
