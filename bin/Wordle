@@ -1,0 +1,37 @@
+#!/usr/bin/env ruby
+require_relative './../config/config'
+require 'wordle'
+
+module WordleRunner
+  class Play
+    include Constants
+
+    attr_accessor :game
+
+    def initialize
+      @game = Wordle.new
+    end
+
+    def start
+      until game.score == ALL_GREEN || game.attempt > ATTEMPT_LIMIT
+        puts game.start_banner
+        game.guess_word
+        ok, message = game.manage_flow
+        if ok
+          puts game.colorize
+          puts game.color_map
+        else
+          puts message
+        end
+      end
+      game.end_game
+    end
+
+  end
+end
+
+if $PROGRAM_NAME == __FILE__
+  puts 'Welcome to the Sciberboy & KOTP Wordle Clone!'
+  puts "Type 'x' to quit the game at any time."
+  WordleRunner::Play.new.start
+end

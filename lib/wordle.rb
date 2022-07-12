@@ -3,28 +3,55 @@ require_relative './../config/config'
 class Wordle
   include Constants
 
-  attr_reader :score
+  attr_accessor :score,
+                :attempt,
+                :guess
 
-  def play
-    until score == ALL_GREEN || attempt > ATTEMPT_LIMIT
-      puts start_banner
-      guess_word
-      status, message = manage_flow
-      puts message unless status
+  def start_banner
+    "Attempt #{attempt}"
+  end
+
+  def guess_word
+    self.guess = gets.chomp.downcase
+  end
+
+  def manage_flow
+    if guess == 'x'
+      end_game
+    elsif guess.length != 5
+      [false, MESSAGE[:word_length]]
+    elsif !valid_word?
+      [false, MESSAGE[:word_invalid]]
+    else
+      evaluate_guess
+      archive_score
+      increment_attempt
+      [true, '']
     end
-    end_this_game
+  end
+
+  def color_map(colors = score)
+    colormap = Colors.add_color(colors)
+    colormap.map { |color| color << '|' }.join
+  end
+
+  def colorize
+    guess.chars.join(' ').yellow
+  end
+
+  def end_game
+    end_banner
+    play_again? ? Wordle.new.start : (puts MESSAGE[:bye])
+    exit!
   end
 
   private
 
   attr_accessor :archive,
-                :attempt,
-                :guess,
+
                 :word_of_the_day
 
   attr_reader :dictionary
-
-  attr_writer :score
 
   def initialize(dictionary = File.readlines(WORDS_LIST))
     @dictionary = dictionary
@@ -34,38 +61,8 @@ class Wordle
     puts "The word of the day is: #{word_of_the_day.green}" if $DEBUG
   end
 
-  def manage_flow
-    if guess == 'x'
-      end_this_game
-    elsif guess.length != 5
-      [false, MESSAGE[:word_length]]
-    elsif !valid_word?
-      [false, MESSAGE[:word_invalid]]
-    else
-      evaluate_guess
-      puts colorize
-      puts color_map
-      archive_score
-      increment_attempt
-      [true, '']
-    end
-  end
-
-  def archive_score
-    archive << score
-  end
-
   def increment_attempt
     self.attempt += 1
-  end
-
-  def color_map(colors = score)
-    colormap = Colors.add_color(colors)
-    colormap.map { |color| color << '|' }.join
-  end
-
-  def colorize
-    guess.chars.map { |char| char }.join(' ').yellow
   end
 
   def retrieve_archive
@@ -85,10 +82,6 @@ class Wordle
     REPORT
   end
 
-  def guess_word
-    self.guess = gets.chomp.downcase
-  end
-
   def continue?(response, continue = ['y', ''])
     continue.include? response
   end
@@ -98,9 +91,6 @@ class Wordle
     continue? gets.downcase.chomp
   end
 
-  def start_banner
-    "Attempt #{attempt}"
-  end
 
   def valid_word?
     dictionary.any? { |line| line.chomp == guess }
@@ -116,10 +106,8 @@ class Wordle
     end
   end
 
-  def end_this_game
-    end_banner
-    play_again? ? Wordle.new.play : (puts MESSAGE[:bye])
-    exit!
+  def archive_score
+    archive << score
   end
 
 end

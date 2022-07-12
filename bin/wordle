@@ -1,9 +1,0 @@
-#!/usr/bin/env ruby
-require_relative './../config/config'
-require 'wordle'
-
-if $PROGRAM_NAME == __FILE__
-  puts 'Welcome to the Sciberboy & KOTP Wordle Clone!'
-  puts "Type 'x' to quit the game at any time."
-  Wordle.new.play
-end
