@@ -3,11 +3,45 @@ require_relative './../config/config'
 class WordleGame
   include Constants
 
+  attr_accessor :score,
+                :attempt
+
+  def start_banner
+    "Attempt #{attempt}"
+  end
+
+  def guess_word
+    self.guess = gets.chomp.downcase
+  end
+
+  def manage_flow
+    if guess == 'x'
+      end_this_game
+    elsif guess.length != 5
+      [false, MESSAGE[:word_length]]
+    elsif !valid_word?
+      [false, MESSAGE[:word_invalid]]
+    else
+      evaluate_guess
+      puts colorize
+      puts color_map
+      archive_score
+      increment_attempt
+      [true, '']
+    end
+  end
+
+  def end_this_game
+    end_banner
+    play_again? ? Wordle.new.start : (puts MESSAGE[:bye])
+    exit!
+  end
+
+  private
+
   attr_accessor :archive,
-                :attempt,
                 :guess,
-                :word_of_the_day,
-                :score
+                :word_of_the_day
 
   attr_reader :dictionary
 
@@ -17,10 +51,6 @@ class WordleGame
     @attempt = 1
     @archive = []
     puts "The word of the day is: #{word_of_the_day.green}" if $DEBUG
-  end
-
-  def archive_score
-    archive << score
   end
 
   def increment_attempt
@@ -53,10 +83,6 @@ class WordleGame
     REPORT
   end
 
-  def guess_word
-    self.guess = gets.chomp.downcase
-  end
-
   def continue?(response, continue = ['y', ''])
     continue.include? response
   end
@@ -66,9 +92,6 @@ class WordleGame
     continue? gets.downcase.chomp
   end
 
-  def start_banner
-    "Attempt #{attempt}"
-  end
 
   def valid_word?
     dictionary.any? { |line| line.chomp == guess }
@@ -84,10 +107,8 @@ class WordleGame
     end
   end
 
-  def end_this_game
-    end_banner
-    play_again? ? Wordle.new.start : (puts MESSAGE[:bye])
-    exit!
+  def archive_score
+    archive << score
   end
 
 end

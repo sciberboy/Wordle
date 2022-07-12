@@ -1,6 +1,5 @@
 require_relative './../config/config'
 require 'minitest/autorun'
-require_relative './../bin/Wordle'
 require 'wordle_game'
 
 class Wordle_test < Minitest::Test
