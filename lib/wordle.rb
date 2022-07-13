@@ -3,9 +3,9 @@ require_relative './../config/config'
 class Wordle
   include Constants
 
-  attr_accessor :score,
-                :attempt,
-                :guess
+  attr_accessor :attempt,
+                :guess,
+                :score
 
   def start_banner
     "Attempt #{attempt}"
