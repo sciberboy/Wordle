@@ -17,16 +17,16 @@ class Wordle
 
   def manage_flow
     if guess == 'x'
-      end_game
+      []
     elsif guess.length != 5
-      [false, MESSAGE[:word_length]]
+      [:error, MESSAGE[:word_length]]
     elsif !valid_word?
-      [false, MESSAGE[:word_invalid]]
+      [:error, MESSAGE[:word_invalid]]
     else
       evaluate_guess
       archive_score
       increment_attempt
-      [true, '']
+      [:continue, '']
     end
   end
 
@@ -39,10 +39,22 @@ class Wordle
     guess.chars.join(' ').yellow
   end
 
-  def end_game
-    end_banner
-    play_again? ? Wordle.new.start : (puts MESSAGE[:bye])
-    exit!
+  def play_again?
+    puts 'Do you want to play again? (Y/n)'
+    %w[y Y].include? gets.downcase.chomp
+  end
+
+  def end_banner
+    puts
+    puts 'History:'.yellow
+    puts retrieve_archive
+    response = score == ALL_GREEN ? 'Well done!' : 'Sorry, you did not get it this time!'
+    puts <<~REPORT % [response, word_of_the_day.green]
+
+      %s
+      The word you are looking for is: %s
+
+    REPORT
   end
 
   private
@@ -66,28 +78,6 @@ class Wordle
 
   def retrieve_archive
     archive.map { |colors| color_map(colors) }
-  end
-
-  def end_banner
-    puts
-    puts 'History:'.yellow
-    puts retrieve_archive
-    response = score == ALL_GREEN ? 'Well done!' : 'Sorry, you did not get it this time!'
-    puts <<~REPORT % [response, word_of_the_day.green]
-
-      %s
-      The word you are looking for is: %s
-
-    REPORT
-  end
-
-  def continue?(response, continue = ['y', ''])
-    continue.include? response
-  end
-
-  def play_again?
-    puts 'Do you want to play again? (Y/n)'
-    continue? gets.downcase.chomp
   end
 
   def valid_word?

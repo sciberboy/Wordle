@@ -16,15 +16,24 @@ module WordleRunner
       until game.score == ALL_GREEN || game.attempt > ATTEMPT_LIMIT
         puts game.start_banner
         game.guess_word
-        ok, message = game.manage_flow
-        if ok
+        status, message = game.manage_flow
+        case status
+        when :continue
           puts game.colorize
           puts game.color_map
-        else
+        when :error
           puts message
+        else
+          end_game
         end
       end
-      game.end_game
+      end_game
+    end
+
+    def end_game
+      puts game.end_banner
+      game.play_again? ? WordleRunner::Play.new.start : (puts MESSAGE[:bye])
+      exit!
     end
   end
 end

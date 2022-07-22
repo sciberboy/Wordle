@@ -14,19 +14,19 @@ class Wordle_test < Minitest::Test
   def test_input_greater_than_expected
     game = Wordle.new
     game.send(:guess=, 'beginner')
-    assert_equal [false, MESSAGE[:word_length]], game.send(:manage_flow)
+    assert_equal [:error, MESSAGE[:word_length]], game.send(:manage_flow)
   end
 
   def test_input_invalid
     game = Wordle.new
     game.send(:guess=, 'skool')
-    assert_equal [false, MESSAGE[:word_invalid]], game.send(:manage_flow)
+    assert_equal [:error, MESSAGE[:word_invalid]], game.send(:manage_flow)
   end
 
   def test_word_is_less_than_five_characters
     game = Wordle.new
     game.send(:guess=, 'more')
-    assert_equal [false, MESSAGE[:word_length]], game.send(:manage_flow)
+    assert_equal [:error, MESSAGE[:word_length]], game.send(:manage_flow)
   end
 
   def test_guess_is_words
