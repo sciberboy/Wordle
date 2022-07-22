@@ -32,7 +32,12 @@ module WordleRunner
 
     def end_game
       puts game.end_banner
-      game.play_again? ? WordleRunner::Play.new.start : abort(puts MESSAGE[:bye])
+      if game.play_again?
+        WordleRunner::Play.new.start
+      else
+        puts MESSAGE[:bye]
+        abort
+      end
     end
   end
 end
