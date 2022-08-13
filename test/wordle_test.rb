@@ -8,7 +8,7 @@ class Wordle_test < Minitest::Test
   def test_banner_output
     game = Wordle.new
     game.send(:attempt=, 4)
-    assert_equal "Attempt 4", game.send(:start_banner)
+    assert_equal 'Attempt 4', game.send(:start_banner)
   end
 
   def test_input_greater_than_expected
