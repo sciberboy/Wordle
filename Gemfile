@@ -1,5 +1,4 @@
 source 'https://rubygems.org'
-ruby '3.0.0'
 
 group :development, :production do
   %w[
@@ -10,5 +9,3 @@ group :development, :production do
     simplecov
   ].each { |package| gem package }
 end
-
-
