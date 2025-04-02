@@ -5,7 +5,7 @@ Creator: Josh Wardle
 
 Rules:
 
-- You have to guess a word in six tries or less.
+- You have to guess a word in six tries or fewer.
 - Every word you enter must be a valid 5-letter
   word, which is present in the [WORDLE word list][1].
 - A correct letter turns green ('G').
